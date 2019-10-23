@@ -55,7 +55,7 @@ function run() {
 
 ##############################环境包########################################
 function Env(){
-    run "rpm -Uvh --force --nodeps --replacepkgs ${basepath}/*.rpm"
+    run "yum -y install gcc gcc-c+ net-tools"
 }
 
 ####################################区域分割线###################################
@@ -142,7 +142,6 @@ function agentd_install(){
         run "sed -i \"s@\# Timeout=3@Timeout=${Agent_Timeout}@g\" `grep Timeout= -rl ${CONF_FILE}`"
         run "sed -i \"s@ServerActive=127.0.0.1@ServerActive=${Agent_ServerActive}@g\" `grep ServerActive= -rl ${CONF_FILE}`"        
         # check parameter
-        run "sed -i \"s@\# Include=/usr/local/etc/zabbix_agentd.conf.d/@Include=${Include}@g\" `grep Include= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# EnableRemoteCommands=0@EnableRemoteCommands=${Agent_EnableRemoteCommands}@g\" `grep EnableRemoteCommands= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# LogRemoteCommands=0@LogRemoteCommands=${Agent_LogRemoteCommands}@g\" `grep LogRemoteCommands= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# UnsafeUserParameters=0@UnsafeUserParameters=${Agent_UnsafeUserParameters}@g\" `grep UnsafeUserParameters= -rl ${CONF_FILE}`"
@@ -150,6 +149,8 @@ function agentd_install(){
         run "sed -i \"s@\# LogFileSize=1@LogFileSize=${Agent_LogFileSize}@g\" `grep LogFileSize= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# HostMetadataItem=@HostMetadataItem=${Agent_HostMetadataItem}@g\" `grep HostMetadataItem= -rl ${CONF_FILE}`"
 
+        # 自定义Item文件目录
+        #run "sed -i \"s@\# Include=/usr/local/etc/zabbix_agentd.conf.d/@Include=${Include}@g\" `grep Include= -rl ${CONF_FILE}`"
         ################################ UserParameter自定义监控项 ###########################################
         run "cp ${scripts}/discover_disk.pl ${BASEDIR}/scripts/"
         run "chmod u+x ${BASEDIR}/scripts/discover_disk.pl"
