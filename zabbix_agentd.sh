@@ -5,7 +5,7 @@ set -e
 LinuxVersion=$(for temp in `cat /etc/system-release`;do echo $temp|sed -n '/^[0-9]/p';done)
 baseshell=$(cd `dirname $0`; pwd)
 basepath=$(cd $baseshell;cd packages; pwd)
-scripts="$(cd $baseshell; pwd)/scripts"
+scripts="$(cd $baseshell; pwd)/lib"
 
 ZBBackage="zabbix-3.2.7.tar.gz"
 ZBBackageName=$(echo $ZBBackage|awk -F ".tar" '{print $1}')
@@ -125,13 +125,13 @@ function agentd_install(){
         if [ ! -d ${basepath}/${ZBBackageName} ];then
             run "tar xf ${basepath}/${ZBBackage} -C ${basepath}"
         fi
-    
+
         run "cd ${basepath}/${ZBBackageName};./configure --prefix=/usr/local/zabbix --enable-agent && echo succeed"
         run "cd ${basepath}/${ZBBackageName} && make && make install && echo succeed"
         sleep 1 
 
+        run "mkdir -p ${BASEDIR}/{logs,run}"
         run "chown -R zabbix:zabbix ${BASEDIR}/"
-        run "mkdir -p ${BASEDIR}/{logs,run,scripts}"
 
         # 配置 zabbix_agentd.conf
         run "sed -i \"s/Server=127.0.0.1/Server=${Agent_Server}/g\" `grep Server= -rl $CONF_FILE`"
@@ -152,10 +152,10 @@ function agentd_install(){
         # 自定义Item文件目录
         #run "sed -i \"s@\# Include=/usr/local/etc/zabbix_agentd.conf.d/@Include=${Include}@g\" `grep Include= -rl ${CONF_FILE}`"
         ################################ UserParameter自定义监控项 ###########################################
-        run "cp ${scripts}/discover_disk.pl ${BASEDIR}/scripts/"
-        run "chmod u+x ${BASEDIR}/scripts/discover_disk.pl"
+        run "cp ${scripts}/discover_disk.pl ${BASEDIR}/lib/"
+        run "chmod u+x ${BASEDIR}/lib/discover_disk.pl"
         #监控磁盘IO的配置
-        run "sed -i '\$aUserParameter=discovery.disks.iostats,/usr/local/zabbix/scripts/discover_disk.pl\nUserParameter=vfs.dev.read.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$6}'\''\nUserParameter=vfs.dev.write.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$10}'\''\nUserParameter=vfs.dev.read.ops[*],cat /proc/diskstats | grep \$1 | head -1 |awk '\''{print \$\$4}'\''\nUserParameter=vfs.dev.write.ops[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$8}'\''\nUserParameter=vfs.dev.read.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$7}'\''\nUserParameter=vfs.dev.write.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$11}'\''\nUserParameter=user_disk,/usr/local/zabbix/scripts/user_disk.sh' ${CONF_FILE}"
+        run "sed -i '\$aUserParameter=discovery.disks.iostats,/usr/local/zabbix/lib/discover_disk.pl\nUserParameter=vfs.dev.read.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$6}'\''\nUserParameter=vfs.dev.write.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$10}'\''\nUserParameter=vfs.dev.read.ops[*],cat /proc/diskstats | grep \$1 | head -1 |awk '\''{print \$\$4}'\''\nUserParameter=vfs.dev.write.ops[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$8}'\''\nUserParameter=vfs.dev.read.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$7}'\''\nUserParameter=vfs.dev.write.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$11}'\''\nUserParameter=user_disk,/usr/local/zabbix/lib/user_disk.sh' ${CONF_FILE}"
         # 其他监控
         run "sed -i '\$aUserParameter=ping[*],ping \$1 -c \$2 > /dev/null && echo 1 || echo 0' ${CONF_FILE}"
     fi
