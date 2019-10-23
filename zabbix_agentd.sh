@@ -5,7 +5,7 @@ set -e
 LinuxVersion=$(for temp in `cat /etc/system-release`;do echo $temp|sed -n '/^[0-9]/p';done)
 baseshell=$(cd `dirname $0`; pwd)
 basepath=$(cd $baseshell;cd packages; pwd)
-scripts="$(cd $baseshell; pwd)/lib"
+scripts="$(cd $baseshell; pwd)/scripts"
 
 ZBBackage="zabbix-3.2.7.tar.gz"
 ZBBackageName=$(echo $ZBBackage|awk -F ".tar" '{print $1}')
