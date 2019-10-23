@@ -31,7 +31,7 @@ Agent_HostMetadataItem="system.uname"
 DEBUG_COMMANDS="1" #开启调试
 
 #############################命令执行#############################
-function run() {
+run() {
     _cmd="${1}"
     _debug="0"
 
@@ -54,12 +54,12 @@ function run() {
 }
 
 ##############################环境包########################################
-function Env(){
+Env(){
     run "yum -y install gcc gcc-c+ net-tools"
 }
 
 ####################################区域分割线###################################
-function parting(){
+parting(){
     local string
     if [ "$#" = 0 ];then
         echo -e "\033[34;1m" && printf "%40s" '='|tr ' ' '=' && echo -e "\033[31m[null]\c" && echo -e "\033[34m\c" && printf "%40s\n" '='|tr ' ' '=' && echo -e "\033[0m"
@@ -73,7 +73,7 @@ function parting(){
 }
 
 ###############################用户和组###################################
-function user_group_check(){
+user_group_check(){
     parting "用户和组检查"
     # Group  Add Check
     local group=`cat /etc/group |grep zabbix |awk -F':' '{print $1}'`
@@ -94,8 +94,7 @@ function user_group_check(){
     fi
 }
 
-#######################目录检查#################
-function catalog_check(){
+catalog_check(){
     if [ -d ${2} ];then
         echo -e "\033[31m ${1} 目录存在，路径:${2}\033[0m"
         catalog="ture"
@@ -106,7 +105,7 @@ function catalog_check(){
 }
 
 #####################文件检查#################
-function file_check(){
+file_check(){
     if [ -f ${2} ];then
         echo -e "\033[31m ${1} 文件存在,路径:${2}\033[0m"
         file="ture"
@@ -117,7 +116,7 @@ function file_check(){
 }
 
 ###############################zabbix agent install########################
-function agentd_install(){
+agentd_install(){
 	catalog_check "zabbix_agentd" "${BASEDIR}"
 	file_check "zabbix_agentd" "/etc/init.d/zabbix_agentd"
 	if [ ${catalog}x = "false"x ] && [ ${file}x = "false"x ];then
@@ -161,7 +160,7 @@ function agentd_install(){
     fi
 }
 
-function agentd_init(){
+agentd_init(){
 	parting "初始化zabbix_agentd"
     run "cp ${basepath}/${ZBBackageName}/misc/init.d/fedora/core/zabbix_agentd /etc/init.d/"
     run "chmod 755  /etc/init.d/zabbix_agentd"
@@ -185,7 +184,7 @@ function agentd_init(){
 }
 
 # Check Zabbix agentd Starting Status
-function agentd_status(){
+agentd_status(){
     parting "agentd_status_check"
     local proc_num=`netstat -apn |grep zabbix_agentd |grep -v grep |wc -l`
     #if [ $c -eq "1" ];then
@@ -197,7 +196,7 @@ function agentd_status(){
 }
 
 # Check Iptables Status
-function iptables(){
+iptables_check(){
 	parting "Check Iptables Status"
 	if [ ${LinuxVersion:0:1} = "6" ];then
         if ! grep "10050" /etc/sysconfig/iptables;then
@@ -215,16 +214,15 @@ function iptables(){
 	fi
 }
 
-case $1 in
-    *)
-        Env;
-        user_group_check;
-        agentd_install;
-        agentd_init;
-        agentd_status;
-        iptables;
-    ;;
-    *)
- #       echo -e "usage: `basename ${0}` [install]"
-esac
+Agentd_install(){
+    Env
+    user_group_check
+    agentd_install
+    agentd_init
+    agentd_status
+    iptables_check
+}
+
+Agentd_install 2>&1 |tee ${baseshell}/setup.log
+
 exit 0
