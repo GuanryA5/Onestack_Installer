@@ -206,7 +206,7 @@ iptables_check(){
             echo "iptables rules already exist!"
         fi
 	elif [ ${LinuxVersion:0:1} = "7" ];then
-        if ! firewall-cmd --list-port | grep "10050/tcp"
+        if ! firewall-cmd --list-port | grep "10050/tcp";then
 		    run "firewall-cmd --add-port=$Agent_ListenPort/tcp"
 		else
 			echo "firewall rules already exist!"
