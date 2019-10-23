@@ -199,33 +199,18 @@ function agentd_status(){
 # Check Iptables Status
 function iptables(){
 	parting "Check Iptables Status"
-	local sign
-	if [ ${LinuxVersion:0:1}x = "6"x ];then
-        run "mkfifo -m 777 /tmp/fifo"
-        run "/etc/init.d/iptables status &> /dev/null && sign=\"ture\" || sign=\"false\";echo \"\$sign\" > /tmp/fifo &"
-        read sign < /tmp/fifo
-        run "rm /tmp/fifo"
-		if [ ${sign}x = "ture"x ];then
-			echo "iptables Runing!"
-            if ! grep -q 10050 /etc/sysconfig/iptables;then
-                run "sed -i '9a \-A INPUT \-m state \-\-state NEW \-m tcp \-p tcp \-\-dport '$Agent_ListenPort' \-j ACCEPT' /etc/sysconfig/iptables"
-                run "sed -i '9a \-A OUTPUT \-m state \-\-state NEW \-m tcp \-p tcp \-\-dport '$Agent_ListenPort' \-j ACCEPT' /etc/sysconfig/iptables"
-            fi
-#			run "/etc/init.d/iptables restart"
-			echo "Close iptables or To open up 10050 TCP port!"
+	if [ ${LinuxVersion:0:1} = "6" ];then
+        if ! grep "10050" /etc/sysconfig/iptables;then
+            run "sed -i '9a \-A INPUT \-m state \-\-state NEW \-m tcp \-p tcp \-\-dport '$Agent_ListenPort' \-j ACCEPT' /etc/sysconfig/iptables"
+            run "sed -i '9a \-A OUTPUT \-m state \-\-state NEW \-m tcp \-p tcp \-\-dport '$Agent_ListenPort' \-j ACCEPT' /etc/sysconfig/iptables"
+        else
+            echo "iptables rules already exist!"
+        fi
+	elif [ ${LinuxVersion:0:1} = "7" ];then
+        if ! firewall-cmd --list-port | grep "10050/tcp"
+		    run "firewall-cmd --add-port=$Agent_ListenPort/tcp"
 		else
-			echo "iptables NOT Runing"
-		fi
-	elif [ ${LinuxVersion:0:1}x = "7"x ];then
-        run "mkfifo -m 777 /tmp/iptab || exit 0"
-        run "firewall-cmd --state &> /dev/null && sign=\"ture\" || sign=\"false\";echo \"\$sign\" > /tmp/iptab &"
-        read sign < /tmp/iptab
-        run "rm /tmp/iptab"
-		if [ ${sign}x = "ture"x ];then
-			run "firewall-cmd --permanent --add-port=$Agent_ListenPort/tcp"
-#			run "firewall-cmd --reload"
-		else
-			echo "firewall not runing"
+			echo "firewall rules already exist!"
 		fi
 	fi
 }
