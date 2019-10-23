@@ -223,6 +223,6 @@ Agentd_install(){
     iptables_check
 }
 
-Agentd_install 2>&1 |tee ${baseshell}/setup.log
+Agentd_install 2>&1 |tee ${baseshell}/log
 
 exit 0
