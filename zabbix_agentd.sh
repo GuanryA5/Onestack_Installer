@@ -130,7 +130,6 @@ agentd_install(){
         sleep 1 
 
         run "mkdir -p ${BASEDIR}/{logs,run}"
-        run "chown -R zabbix:zabbix ${BASEDIR}/"
 
         # 配置 zabbix_agentd.conf
         run "sed -i \"s/Server=127.0.0.1/Server=${Agent_Server}/g\" `grep Server= -rl $CONF_FILE`"
@@ -168,6 +167,7 @@ agentd_init(){
     run "sed -i \"s@BASEDIR=/usr/local@BASEDIR=${BASEDIR}@g\" /etc/init.d/zabbix_agentd"
     run "sed -i \"s@PIDFILE=/tmp/\\\$BINARY_NAME.pid@PIDFILE=${BASEDIR}/logs/\\\$BINARY_NAME.pid@g\" /etc/init.d/zabbix_agentd"
 
+    run "chown -R zabbix:zabbix ${BASEDIR}/"
     run "service zabbix_agentd start & ss -tnlp"
 
 	if	
