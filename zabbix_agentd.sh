@@ -5,20 +5,20 @@ set -e
 LinuxVersion=$(for temp in `cat /etc/system-release`;do echo $temp|sed -n '/^[0-9]/p';done)
 baseshell=$(cd `dirname $0`; pwd)
 basepath=$(cd $baseshell;cd packages; pwd)
-scripts="$(cd $baseshell; pwd)/conf"
+scripts="$(cd $baseshell; pwd)/scripts"
 
 ZBBackage="zabbix-3.2.7.tar.gz"
 ZBBackageName=$(echo $ZBBackage|awk -F ".tar" '{print $1}')
 BASEDIR="/usr/local/zabbix"
 
-Agent_Server="192.168.1.1"
-Agent_ServerActive="192.168.1.1"
+Agent_Server="10.203.8.11"
+Agent_ServerActive="10.203.8.11"
 
 Agent_Hostname="$(hostname)"
 Agent_Timeout="30"
 CONF_FILE="${BASEDIR}/etc/zabbix_agentd.conf"
 PidFile="${BASEDIR}/logs/zabbix_agentd.pid"
-LogFile="${BASEDIR}/logs/zabbix_agentd.log"
+LogFile="${BASEDIR}/run/zabbix_agentd.log"
 Agent_ListenPort="10050"
 #Include="/usr/local/zabbix/etc/zabbix_agentd.conf.d/*.conf"
 Agent_UnsafeUserParameters="1"
@@ -116,8 +116,8 @@ function file_check(){
     fi
 }
 
-###############################zabbix agent instal########################
-function AgentInstall(){
+###############################zabbix agent install########################
+function agentd_install(){
 	catalog_check "zabbix_agentd" "${BASEDIR}"
 	file_check "zabbix_agentd" "/etc/init.d/zabbix_agentd"
 	if [ ${catalog}x = "false"x ] && [ ${file}x = "false"x ];then
@@ -130,69 +130,65 @@ function AgentInstall(){
         run "cd ${basepath}/${ZBBackageName} && make && make install && echo succeed"
         sleep 1 
 
-        run "cp ${basepath}/${ZBBackageName}/misc/init.d/fedora/core/zabbix_agentd /etc/init.d/"
-        run "chmod u+x  /etc/init.d/zabbix_agentd"
+        run "chown -R zabbix:zabbix ${BASEDIR}/"
+        run "mkdir -p ${BASEDIR}/{logs,run,scripts}"
 
-        #创建存放脚本目录，放入监控磁盘IO的perl脚本
-        run "mkdir -p ${BASEDIR}/scripts"
-        run "cp ${scripts}/discover_disk.pl ${BASEDIR}/scripts/"
-        run "chmod u+x ${BASEDIR}/scripts/discover_disk.pl"
-
-        # Edit zabbix_agentd
-        run "sed -i \"s@BASEDIR=/usr/local@BASEDIR=${BASEDIR}@g\" /etc/init.d/zabbix_agentd"
-        run "sed -i \"s@PIDFILE=/tmp/\\\$BINARY_NAME.pid@PIDFILE=${BASEDIR}/logs/\\\$BINARY_NAME.pid@g\" /etc/init.d/zabbix_agentd"
-
-        # Edit zabbix_agentd.conf
+        # 配置 zabbix_agentd.conf
         run "sed -i \"s/Server=127.0.0.1/Server=${Agent_Server}/g\" `grep Server= -rl $CONF_FILE`"
-        #下面这行只能运行一次
         run "sed -i \"s@Hostname=Zabbix server@Hostname=${Agent_Hostname}@g\" `grep Hostname= -rl ${CONF_FILE}`"
         run "sed -i \"s@LogFile=/tmp/zabbix_agentd.log@LogFile=${LogFile}@g\" `grep LogFile= -rl ${CONF_FILE}`"
-        run "sed -i \"s@\# PidFile=/tmp/zabbix_agentd.pid@PidFile=$PidFile@g\" `grep PidFile= -rl ${CONF_FILE}`"
+        run "sed -i \"s@\# PidFile=/tmp/zabbix_agentd.pid@PidFile=${PidFile}@g\" `grep PidFile= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# ListenPort=10050@ListenPort=${Agent_ListenPort}@g\" `grep ListenPort= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# Timeout=3@Timeout=${Agent_Timeout}@g\" `grep Timeout= -rl ${CONF_FILE}`"
-        run "sed -i \"s@ServerActive=127.0.0.1@ServerActive=${Agent_ServerActive}@g\" `grep ServerActive= -rl ${CONF_FILE}`"
-        #run "sed -i \"s@\# Include=/usr/local/etc/zabbix_agentd.conf.d/@Include=${Include}@g\" `grep Include= -rl ${CONF_FILE}`"
+        run "sed -i \"s@ServerActive=127.0.0.1@ServerActive=${Agent_ServerActive}@g\" `grep ServerActive= -rl ${CONF_FILE}`"        
+        # check parameter
+        run "sed -i \"s@\# Include=/usr/local/etc/zabbix_agentd.conf.d/@Include=${Include}@g\" `grep Include= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# EnableRemoteCommands=0@EnableRemoteCommands=${Agent_EnableRemoteCommands}@g\" `grep EnableRemoteCommands= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# LogRemoteCommands=0@LogRemoteCommands=${Agent_LogRemoteCommands}@g\" `grep LogRemoteCommands= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# UnsafeUserParameters=0@UnsafeUserParameters=${Agent_UnsafeUserParameters}@g\" `grep UnsafeUserParameters= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# StartAgents=3@StartAgents=${Agent_StartAgents}@g\" `grep StartAgents= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# LogFileSize=1@LogFileSize=${Agent_LogFileSize}@g\" `grep LogFileSize= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# HostMetadataItem=@HostMetadataItem=${Agent_HostMetadataItem}@g\" `grep HostMetadataItem= -rl ${CONF_FILE}`"
-        #监控磁盘IO的配置
-        run "sed -i '\$aUserParameter=ping[*],ping \$1 -c \$2 > /dev/null && echo 1 || echo 0' ${CONF_FILE}"
-        run "sed -i '\$aUserParameter=discovery.disks.iostats,/usr/local/zabbix/scripts/discover_disk.pl\nUserParameter=vfs.dev.read.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$6}'\''\nUserParameter=vfs.dev.write.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$10}'\''\nUserParameter=vfs.dev.read.ops[*],cat /proc/diskstats | grep \$1 | head -1 |awk '\''{print \$\$4}'\''\nUserParameter=vfs.dev.write.ops[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$8}'\''\nUserParameter=vfs.dev.read.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$7}'\''\nUserParameter=vfs.dev.write.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$11}'\''\nUserParameter=user_disk,/usr/local/zabbix/scripts/user_disk.sh' ${CONF_FILE}"
 
-        if [ ! -d ${BASEDIR}/logs ];then
-            mkdir ${BASEDIR}/logs
-        fi
-        run "chown -R zabbix.zabbix ${BASEDIR}/"
+        ################################ UserParameter自定义监控项 ###########################################
+        run "cp ${scripts}/discover_disk.pl ${BASEDIR}/scripts/"
+        run "chmod u+x ${BASEDIR}/scripts/discover_disk.pl"
+        #监控磁盘IO的配置
+        run "sed -i '\$aUserParameter=discovery.disks.iostats,/usr/local/zabbix/scripts/discover_disk.pl\nUserParameter=vfs.dev.read.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$6}'\''\nUserParameter=vfs.dev.write.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$10}'\''\nUserParameter=vfs.dev.read.ops[*],cat /proc/diskstats | grep \$1 | head -1 |awk '\''{print \$\$4}'\''\nUserParameter=vfs.dev.write.ops[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$8}'\''\nUserParameter=vfs.dev.read.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$7}'\''\nUserParameter=vfs.dev.write.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$11}'\''\nUserParameter=user_disk,/usr/local/zabbix/scripts/user_disk.sh' ${CONF_FILE}"
+        # 其他监控
+        run "sed -i '\$aUserParameter=ping[*],ping \$1 -c \$2 > /dev/null && echo 1 || echo 0' ${CONF_FILE}"
     fi
 }
 
-# Start Zabbix-agent on Boot
-function agentd_boot(){
-	parting "Start Zabbix-agent on Boot"
-	if
-		cat /etc/rc.local | grep "service zabbix_agentd start" > /dev/null 2>&1
-		then
-			echo "Start on boot Already Exists"
-		elif
-			cat /etc/rc.local | grep "exit 0" > /dev/null 2>&1
-		then
+function agentd_init(){
+	parting "初始化zabbix_agentd"
+    run "cp ${basepath}/${ZBBackageName}/misc/init.d/fedora/core/zabbix_agentd /etc/init.d/"
+    run "chmod 755  /etc/init.d/zabbix_agentd"
+    # 配置启动文件
+    run "sed -i \"s@BASEDIR=/usr/local@BASEDIR=${BASEDIR}@g\" /etc/init.d/zabbix_agentd"
+    run "sed -i \"s@PIDFILE=/tmp/\\\$BINARY_NAME.pid@PIDFILE=${BASEDIR}/logs/\\\$BINARY_NAME.pid@g\" /etc/init.d/zabbix_agentd"
+
+    run "service zabbix_agentd start & ss -tnlp"
+
+	if	
+        cat /etc/rc.local | grep "service zabbix_agentd start" > /dev/null 2>&1
+        then	
+            echo "Start on boot Already Exists"
+	    elif
+            cat /etc/rc.local | grep "exit 0" > /dev/null 2>&1
+        then
             sed -i "s/exit 0/service zabbix_agentd start\nexit 0/g" /etc/rc.local
-		else
+	    else
             echo "service zabbix-agent start" >> /etc/rc.local
     fi
-echo "Starting the Zabbix-Agent...."
-run "service zabbix_agentd start && ss -tnlp"
 }
 
 # Check Zabbix agentd Starting Status
 function agentd_status(){
     parting "agentd_status_check"
-    local c=`netstat -apn |grep zabbix_agentd |grep -v grep |wc -l`
+    local proc_num=`netstat -apn |grep zabbix_agentd |grep -v grep |wc -l`
     #if [ $c -eq "1" ];then
-    if [ $c -gt 0 ];then
+    if [ $proc_num -gt 0 ];then
         echo "Zabbix agentd Starting Success!"
     else
         echo "Zabbix agentd Starting ERROR!"
@@ -237,8 +233,8 @@ case $1 in
     *)
         Env;
         user_group_check;
-        AgentInstall;
-		agentd_boot;
+        agentd_install;
+        agentd_init;
         agentd_status;
         iptables;
     ;;
