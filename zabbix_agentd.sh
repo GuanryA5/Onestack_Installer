@@ -11,8 +11,8 @@ ZBBackage="zabbix-3.2.7.tar.gz"
 ZBBackageName=$(echo $ZBBackage|awk -F ".tar" '{print $1}')
 BASEDIR="/usr/local/zabbix"
 
-Agent_Server="10.203.8.11"
-Agent_ServerActive="10.203.8.11"
+Agent_Server="192.168.137.100"
+Agent_ServerActive="192.168.137.100"
 
 Agent_Hostname="$(hostname)"
 Agent_Timeout="30"
@@ -55,7 +55,7 @@ run() {
 
 ##############################环境包########################################
 Env(){
-    run "yum -y install gcc gcc-c+ net-tools"
+    run "yum -y install gcc gcc-c++ net-tools"
 }
 
 ####################################区域分割线###################################
@@ -150,12 +150,16 @@ agentd_install(){
         # 自定义Item文件目录
         #run "sed -i \"s@\# Include=/usr/local/etc/zabbix_agentd.conf.d/@Include=${Include}@g\" `grep Include= -rl ${CONF_FILE}`"
         ################################ UserParameter自定义监控项 ###########################################
+
         run "cp ${scripts}/discover_disk.pl ${BASEDIR}/lib/"
         run "chmod u+x ${BASEDIR}/lib/discover_disk.pl"
-        #监控磁盘IO的配置
-        run "sed -i '\$aUserParameter=discovery.disks.iostats,/usr/local/zabbix/lib/discover_disk.pl\nUserParameter=vfs.dev.read.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$6}'\''\nUserParameter=vfs.dev.write.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$10}'\''\nUserParameter=vfs.dev.read.ops[*],cat /proc/diskstats | grep \$1 | head -1 |awk '\''{print \$\$4}'\''\nUserParameter=vfs.dev.write.ops[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$8}'\''\nUserParameter=vfs.dev.read.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$7}'\''\nUserParameter=vfs.dev.write.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$11}'\''\nUserParameter=user_disk,/usr/local/zabbix/lib/user_disk.sh' ${CONF_FILE}"
-        # 其他监控
+
+        echo  -e "\n################################基础监测################################" >> ${CONF_FILE} && \
         run "sed -i '\$aUserParameter=ping[*],ping \$1 -c \$2 > /dev/null && echo 1 || echo 0' ${CONF_FILE}"
+    
+        #监控磁盘IO的配置
+        echo -e "\n################################磁盘监测################################" >> ${CONF_FILE} && \
+        run "sed -i '\$aUserParameter=discovery.disks.iostats,/usr/local/zabbix/lib/discover_disk.pl\nUserParameter=vfs.dev.read.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$6}'\''\nUserParameter=vfs.dev.write.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$10}'\''\nUserParameter=vfs.dev.read.ops[*],cat /proc/diskstats | grep \$1 | head -1 |awk '\''{print \$\$4}'\''\nUserParameter=vfs.dev.write.ops[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$8}'\''\nUserParameter=vfs.dev.read.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$7}'\''\nUserParameter=vfs.dev.write.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$11}'\''\nUserParameter=user_disk,/usr/local/zabbix/lib/user_disk.sh' ${CONF_FILE}"
     fi
 }
 
@@ -168,7 +172,7 @@ agentd_init(){
     run "sed -i \"s@PIDFILE=/tmp/\\\$BINARY_NAME.pid@PIDFILE=${BASEDIR}/logs/\\\$BINARY_NAME.pid@g\" /etc/init.d/zabbix_agentd"
 
     run "chown -R zabbix:zabbix ${BASEDIR}/"
-    run "service zabbix_agentd start & ss -tnlp"
+    run "service zabbix_agentd start && ss -tnlp"
 
 	if	
         cat /etc/rc.local | grep "service zabbix_agentd start" > /dev/null 2>&1

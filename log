@@ -1,0 +1,859 @@
+[0;31mroot $ [0;32myum -y install gcc gcc-c++ net-tools[0m
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.163.com
+ * epel: mirrors.aliyun.com
+ * extras: mirrors.nju.edu.cn
+ * updates: mirrors.163.com
+Package gcc-4.8.5-39.el7.x86_64 already installed and latest version
+Package gcc-c++-4.8.5-39.el7.x86_64 already installed and latest version
+Package net-tools-2.0-0.25.20131004git.el7.x86_64 already installed and latest version
+Nothing to do
+[34;1m
+========================================[31m[用户和组检查][34m========================================
+[0m
+zabbix Group YES
+zabbix User YES
+[32m zabbix_agentd 目录不存在，检测路径:/usr/local/zabbix[0m
+[32m zabbix_agentd 文件不存在,路径:/etc/init.d/zabbix_agentd[0m
+[34;1m
+========================================[31m[zabbix_agent_install][34m========================================
+[0m
+[0;31mroot $ [0;32mcd /root/Zabbix_Agentd-install/packages/zabbix-3.2.7;./configure --prefix=/usr/local/zabbix --enable-agent && echo succeed[0m
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+configure: Configuring Zabbix 3.2.7
+checking whether make sets $(MAKE)... (cached) yes
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking whether gcc understands -c and -o together... yes
+checking for style of include used by make... GNU
+checking dependency style of gcc... gcc3
+checking how to run the C preprocessor... gcc -E
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking stdio.h usability... yes
+checking stdio.h presence... yes
+checking for stdio.h... yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking netdb.h usability... yes
+checking netdb.h presence... yes
+checking for netdb.h... yes
+checking signal.h usability... yes
+checking signal.h presence... yes
+checking for signal.h... yes
+checking syslog.h usability... yes
+checking syslog.h presence... yes
+checking for syslog.h... yes
+checking time.h usability... yes
+checking time.h presence... yes
+checking for time.h... yes
+checking errno.h usability... yes
+checking errno.h presence... yes
+checking for errno.h... yes
+checking for sys/types.h... (cached) yes
+checking for sys/stat.h... (cached) yes
+checking netinet/in.h usability... yes
+checking netinet/in.h presence... yes
+checking for netinet/in.h... yes
+checking math.h usability... yes
+checking math.h presence... yes
+checking for math.h... yes
+checking sys/socket.h usability... yes
+checking sys/socket.h presence... yes
+checking for sys/socket.h... yes
+checking dirent.h usability... yes
+checking dirent.h presence... yes
+checking for dirent.h... yes
+checking ctype.h usability... yes
+checking ctype.h presence... yes
+checking for ctype.h... yes
+checking mtent.h usability... no
+checking mtent.h presence... no
+checking for mtent.h... no
+checking fcntl.h usability... yes
+checking fcntl.h presence... yes
+checking for fcntl.h... yes
+checking sys/param.h usability... yes
+checking sys/param.h presence... yes
+checking for sys/param.h... yes
+checking arpa/inet.h usability... yes
+checking arpa/inet.h presence... yes
+checking for arpa/inet.h... yes
+checking sys/vfs.h usability... yes
+checking sys/vfs.h presence... yes
+checking for sys/vfs.h... yes
+checking sys/pstat.h usability... no
+checking sys/pstat.h presence... no
+checking for sys/pstat.h... no
+checking sys/sysinfo.h usability... yes
+checking sys/sysinfo.h presence... yes
+checking for sys/sysinfo.h... yes
+checking sys/statvfs.h usability... yes
+checking sys/statvfs.h presence... yes
+checking for sys/statvfs.h... yes
+checking sys/statfs.h usability... yes
+checking sys/statfs.h presence... yes
+checking for sys/statfs.h... yes
+checking for sys/socket.h... (cached) yes
+checking sys/loadavg.h usability... no
+checking sys/loadavg.h presence... no
+checking for sys/loadavg.h... no
+checking for arpa/inet.h... (cached) yes
+checking sys/vmmeter.h usability... no
+checking sys/vmmeter.h presence... no
+checking for sys/vmmeter.h... no
+checking for strings.h... (cached) yes
+checking vm/vm_param.h usability... no
+checking vm/vm_param.h presence... no
+checking for vm/vm_param.h... no
+checking sys/time.h usability... yes
+checking sys/time.h presence... yes
+checking for sys/time.h... yes
+checking kstat.h usability... no
+checking kstat.h presence... no
+checking for kstat.h... no
+checking sys/syscall.h usability... yes
+checking sys/syscall.h presence... yes
+checking for sys/syscall.h... yes
+checking sys/sysmacros.h usability... yes
+checking sys/sysmacros.h presence... yes
+checking for sys/sysmacros.h... yes
+checking for stdint.h... (cached) yes
+checking mach/host_info.h usability... no
+checking mach/host_info.h presence... no
+checking for mach/host_info.h... no
+checking mach/mach_host.h usability... no
+checking mach/mach_host.h presence... no
+checking for mach/mach_host.h... no
+checking knlist.h usability... no
+checking knlist.h presence... no
+checking for knlist.h... no
+checking pwd.h usability... yes
+checking pwd.h presence... yes
+checking for pwd.h... yes
+checking sys/var.h usability... no
+checking sys/var.h presence... no
+checking for sys/var.h... no
+checking arpa/nameser.h usability... yes
+checking arpa/nameser.h presence... yes
+checking for arpa/nameser.h... yes
+checking assert.h usability... yes
+checking assert.h presence... yes
+checking for assert.h... yes
+checking sys/dkstat.h usability... no
+checking sys/dkstat.h presence... no
+checking for sys/dkstat.h... no
+checking sys/disk.h usability... no
+checking sys/disk.h presence... no
+checking for sys/disk.h... no
+checking sys/sched.h usability... no
+checking sys/sched.h presence... no
+checking for sys/sched.h... no
+checking zone.h usability... no
+checking zone.h presence... no
+checking for zone.h... no
+checking nlist.h usability... no
+checking nlist.h presence... no
+checking for nlist.h... no
+checking kvm.h usability... no
+checking kvm.h presence... no
+checking for kvm.h... no
+checking linux/kernel.h usability... yes
+checking linux/kernel.h presence... yes
+checking for linux/kernel.h... yes
+checking procinfo.h usability... no
+checking procinfo.h presence... no
+checking for procinfo.h... no
+checking sys/dk.h usability... no
+checking sys/dk.h presence... no
+checking for sys/dk.h... no
+checking sys/resource.h usability... yes
+checking sys/resource.h presence... yes
+checking for sys/resource.h... yes
+checking pthread.h usability... yes
+checking pthread.h presence... yes
+checking for pthread.h... yes
+checking windows.h usability... no
+checking windows.h presence... no
+checking for windows.h... no
+checking process.h usability... no
+checking process.h presence... no
+checking for process.h... no
+checking conio.h usability... no
+checking conio.h presence... no
+checking for conio.h... no
+checking sys/wait.h usability... yes
+checking sys/wait.h presence... yes
+checking for sys/wait.h... yes
+checking regex.h usability... yes
+checking regex.h presence... yes
+checking for regex.h... yes
+checking stdarg.h usability... yes
+checking stdarg.h presence... yes
+checking for stdarg.h... yes
+checking winsock2.h usability... no
+checking winsock2.h presence... no
+checking for winsock2.h... no
+checking pdh.h usability... no
+checking pdh.h presence... no
+checking for pdh.h... no
+checking psapi.h usability... no
+checking psapi.h presence... no
+checking for psapi.h... no
+checking sys/sem.h usability... yes
+checking sys/sem.h presence... yes
+checking for sys/sem.h... yes
+checking sys/ipc.h usability... yes
+checking sys/ipc.h presence... yes
+checking for sys/ipc.h... yes
+checking sys/shm.h usability... yes
+checking sys/shm.h presence... yes
+checking for sys/shm.h... yes
+checking Winldap.h usability... no
+checking Winldap.h presence... no
+checking for Winldap.h... no
+checking Winber.h usability... no
+checking Winber.h presence... no
+checking for Winber.h... no
+checking lber.h usability... no
+checking lber.h presence... no
+checking for lber.h... no
+checking ws2tcpip.h usability... no
+checking ws2tcpip.h presence... no
+checking for ws2tcpip.h... no
+checking for inttypes.h... (cached) yes
+checking sys/file.h usability... yes
+checking sys/file.h presence... yes
+checking for sys/file.h... yes
+checking grp.h usability... yes
+checking grp.h presence... yes
+checking for grp.h... yes
+checking execinfo.h usability... yes
+checking execinfo.h presence... yes
+checking for execinfo.h... yes
+checking libperfstat.h usability... no
+checking libperfstat.h presence... no
+checking for libperfstat.h... no
+checking sys/systemcfg.h usability... no
+checking sys/systemcfg.h presence... no
+checking for sys/systemcfg.h... no
+checking sys/mnttab.h usability... no
+checking sys/mnttab.h presence... no
+checking for sys/mnttab.h... no
+checking mntent.h usability... yes
+checking mntent.h presence... yes
+checking for mntent.h... yes
+checking sys/times.h usability... yes
+checking sys/times.h presence... yes
+checking for sys/times.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking sys/utsname.h usability... yes
+checking sys/utsname.h presence... yes
+checking for sys/utsname.h... yes
+checking for resolv.h... yes
+checking for net/if.h... yes
+checking for net/if_mib.h... no
+checking for sys/mount.h... yes
+checking for sys/proc.h... no
+checking for sys/sysctl.h... yes
+checking for sys/user.h... yes
+checking for sys/swap.h... yes
+checking for sys/ucontext.h... yes
+checking for devstat.h... no
+checking for linux/netlink.h... yes
+checking linux/inet_diag.h usability... yes
+checking linux/inet_diag.h presence... yes
+checking for linux/inet_diag.h... yes
+checking for library containing socket... none required
+checking for library containing kstat_open... no
+checking for library containing gethostbyname... none required
+checking for library containing clock_gettime... none required
+checking for library containing dlopen... -ldl
+checking for library containing perfstat_memory_total... no
+checking for library containing devstat_getdevs... no
+checking for library containing getdevs... no
+checking for library containing backtrace_symbols... none required
+checking for main in -lm... yes
+checking for main in -lkvm... no
+checking for DNS lookup functions... yes
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... no
+checking for an ANSI C-conforming const... yes
+checking for pid_t... yes
+checking for socklen_t... yes
+checking for actual socklen_t parameter type in socket functions... socklen_t
+checking for integer field name in union sigval of struct siginfo_t... sival_int
+checking for union semun... no
+checking for struct swaptable in sys/swap.h... no
+checking for struct sensordev in sys/sensors.h... no
+checking for struct statvfs64 in sys/statvfs.h... no
+checking for struct statfs64 in sys/statfs.h... no
+checking for field ss_family in struct sockaddr_storage... yes
+checking for field mem_unit in struct sysinfo... yes
+checking for field freeswap in struct sysinfo... yes
+checking for field totalswap in struct sysinfo... yes
+checking for field totalram in struct sysinfo... yes
+checking for field sharedram in struct sysinfo... yes
+checking for field bufferram in struct sysinfo... yes
+checking for field freeram in struct sysinfo... yes
+checking for field uptime in struct sysinfo... yes
+checking for field procs in struct sysinfo... yes
+checking for field tm_gmtoff in struct tm... yes
+checking for function sysconf() in unistd.h... yes
+checking for function initgroups()... yes
+checking for functions seteuid() and setegid()... yes
+checking for function setproctitle()... no
+checking for function sysctlbyname()... no
+checking for function sysctl (KERN_BOOTTIME)... no
+checking for function sysctl (HW_NCPU)... no
+checking for function sysctl (KERN_MAXFILES)... no
+checking for function sysctl (KERN_MAXPROC)... no
+checking for function sysctl (KERN_CPTIME,KERN_CPTIME2)... no
+checking for function clock_gettime in time.h... yes
+checking for macro __va_copy() in stdarg.h... yes
+checking for macro __VA_ARGS__... yes
+checking return type of signal handlers... void
+checking for getloadavg... yes
+checking for hstrerror... yes
+checking for getenv... yes
+checking for putenv... yes
+checking for sigqueue... yes
+checking for /proc filesystem... yes
+checking for file /proc/stat... yes
+checking for file /proc/cpuinfo... yes
+checking for file /proc/0/psinfo... no
+checking for file /proc/loadavg... yes
+checking for file /proc/net/dev... yes
+checking for long long format... no
+checking for -rdynamic linking option... yes
+checking for libperfstat 5.2.0.40 fileset... no
+checking for libperfstat 5.3.0.60 fileset... no
+checking for architecture... linux (linux-gnu)
+checking for the linux kernel version... unknown family (3.10.0-957.el7.x86_64)
+checking size of void *... 8
+checking for ICONV support... yes
+checking for mkdir -p candidate... ok (/usr/bin/mkdir -p)
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating database/Makefile
+config.status: creating misc/Makefile
+config.status: creating src/Makefile
+config.status: creating src/libs/Makefile
+config.status: creating src/libs/zbxlog/Makefile
+config.status: creating src/libs/zbxalgo/Makefile
+config.status: creating src/libs/zbxmemory/Makefile
+config.status: creating src/libs/zbxcrypto/Makefile
+config.status: creating src/libs/zbxconf/Makefile
+config.status: creating src/libs/zbxdbcache/Makefile
+config.status: creating src/libs/zbxdbhigh/Makefile
+config.status: creating src/libs/zbxmedia/Makefile
+config.status: creating src/libs/zbxsysinfo/Makefile
+config.status: creating src/libs/zbxcommon/Makefile
+config.status: creating src/libs/zbxsysinfo/agent/Makefile
+config.status: creating src/libs/zbxsysinfo/common/Makefile
+config.status: creating src/libs/zbxsysinfo/simple/Makefile
+config.status: creating src/libs/zbxsysinfo/linux/Makefile
+config.status: creating src/libs/zbxsysinfo/aix/Makefile
+config.status: creating src/libs/zbxsysinfo/freebsd/Makefile
+config.status: creating src/libs/zbxsysinfo/hpux/Makefile
+config.status: creating src/libs/zbxsysinfo/openbsd/Makefile
+config.status: creating src/libs/zbxsysinfo/osx/Makefile
+config.status: creating src/libs/zbxsysinfo/solaris/Makefile
+config.status: creating src/libs/zbxsysinfo/osf/Makefile
+config.status: creating src/libs/zbxsysinfo/netbsd/Makefile
+config.status: creating src/libs/zbxsysinfo/unknown/Makefile
+config.status: creating src/libs/zbxnix/Makefile
+config.status: creating src/libs/zbxsys/Makefile
+config.status: creating src/libs/zbxcomms/Makefile
+config.status: creating src/libs/zbxcommshigh/Makefile
+config.status: creating src/libs/zbxdb/Makefile
+config.status: creating src/libs/zbxdbupgrade/Makefile
+config.status: creating src/libs/zbxjson/Makefile
+config.status: creating src/libs/zbxserver/Makefile
+config.status: creating src/libs/zbxicmpping/Makefile
+config.status: creating src/libs/zbxexec/Makefile
+config.status: creating src/libs/zbxself/Makefile
+config.status: creating src/libs/zbxmodules/Makefile
+config.status: creating src/libs/zbxregexp/Makefile
+config.status: creating src/zabbix_agent/Makefile
+config.status: creating src/zabbix_get/Makefile
+config.status: creating src/zabbix_sender/Makefile
+config.status: creating src/zabbix_server/Makefile
+config.status: creating src/zabbix_server/alerter/Makefile
+config.status: creating src/zabbix_server/dbsyncer/Makefile
+config.status: creating src/zabbix_server/dbconfig/Makefile
+config.status: creating src/zabbix_server/discoverer/Makefile
+config.status: creating src/zabbix_server/housekeeper/Makefile
+config.status: creating src/zabbix_server/httppoller/Makefile
+config.status: creating src/zabbix_server/pinger/Makefile
+config.status: creating src/zabbix_server/poller/Makefile
+config.status: creating src/zabbix_server/snmptrapper/Makefile
+config.status: creating src/zabbix_server/timer/Makefile
+config.status: creating src/zabbix_server/trapper/Makefile
+config.status: creating src/zabbix_server/watchdog/Makefile
+config.status: creating src/zabbix_server/escalator/Makefile
+config.status: creating src/zabbix_server/proxypoller/Makefile
+config.status: creating src/zabbix_server/selfmon/Makefile
+config.status: creating src/zabbix_server/vmware/Makefile
+config.status: creating src/zabbix_server/taskmanager/Makefile
+config.status: creating src/zabbix_proxy/Makefile
+config.status: creating src/zabbix_proxy/heart/Makefile
+config.status: creating src/zabbix_proxy/housekeeper/Makefile
+config.status: creating src/zabbix_proxy/proxyconfig/Makefile
+config.status: creating src/zabbix_proxy/datasender/Makefile
+config.status: creating src/zabbix_java/Makefile
+config.status: creating upgrades/Makefile
+config.status: creating man/Makefile
+config.status: creating include/config.h
+config.status: include/config.h is unchanged
+config.status: executing depfiles commands
+
+
+Configuration:
+
+  Detected OS:           linux-gnu
+  Install path:          /usr/local/zabbix
+  Compilation arch:      linux
+
+  Compiler:              gcc
+  Compiler flags:         -g -O2
+
+  Library-specific flags:
+
+  Enable server:         no
+
+  Enable proxy:          no
+
+  Enable agent:          yes
+  Agent details:
+    TLS:                   no
+    Linker flags:              -rdynamic  
+    Libraries:                 -lm -ldl  -lresolv 
+
+  Enable Java gateway:   no
+
+  LDAP support:          no
+  IPv6 support:          no
+
+***********************************************************
+*            Now run 'make install'                       *
+*                                                         *
+*            Thank you for using Zabbix!                  *
+*              <http://www.zabbix.com>                    *
+***********************************************************
+
+succeed
+[0;31mroot $ [0;32mcd /root/Zabbix_Agentd-install/packages/zabbix-3.2.7 && make && make install && echo succeed[0m
+Making all in src
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src'
+Making all in libs
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs'
+Making all in zbxcrypto
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcrypto'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcrypto'
+Making all in zbxcommon
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcommon'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcommon'
+Making all in zbxlog
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxlog'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxlog'
+Making all in zbxalgo
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxalgo'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxalgo'
+Making all in zbxnix
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxnix'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxnix'
+Making all in zbxconf
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxconf'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxconf'
+Making all in zbxsysinfo
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo'
+Making all in agent
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/agent'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/agent'
+Making all in common
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/common'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/common'
+Making all in simple
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/simple'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/simple'
+Making all in linux
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/linux'
+make[4]: Nothing to be done for `all'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/linux'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo'
+make[4]: Nothing to be done for `all-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo'
+Making all in zbxsys
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsys'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsys'
+Making all in zbxcomms
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcomms'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcomms'
+Making all in zbxjson
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxjson'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxjson'
+Making all in zbxexec
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxexec'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxexec'
+Making all in zbxmodules
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxmodules'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxmodules'
+Making all in zbxregexp
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxregexp'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxregexp'
+Making all in zbxself
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxself'
+make[3]: Nothing to be done for `all'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxself'
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs'
+make[3]: Nothing to be done for `all-am'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs'
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs'
+Making all in zabbix_agent
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_agent'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_agent'
+Making all in zabbix_get
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_get'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_get'
+Making all in zabbix_sender
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_sender'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_sender'
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src'
+make[2]: Nothing to be done for `all-am'.
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src'
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src'
+Making all in database
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/database'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/database'
+Making all in man
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/man'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/man'
+Making all in misc
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/misc'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/misc'
+Making all in upgrades
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/upgrades'
+make[1]: Nothing to be done for `all'.
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/upgrades'
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7'
+make[1]: Nothing to be done for `all-am'.
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7'
+Making install in src
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src'
+Making install in libs
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs'
+Making install in zbxcrypto
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcrypto'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcrypto'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcrypto'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcrypto'
+Making install in zbxcommon
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcommon'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcommon'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcommon'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcommon'
+Making install in zbxlog
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxlog'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxlog'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxlog'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxlog'
+Making install in zbxalgo
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxalgo'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxalgo'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxalgo'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxalgo'
+Making install in zbxnix
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxnix'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxnix'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxnix'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxnix'
+Making install in zbxconf
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxconf'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxconf'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxconf'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxconf'
+Making install in zbxsysinfo
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo'
+Making install in agent
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/agent'
+make[5]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/agent'
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+make[5]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/agent'
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/agent'
+Making install in common
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/common'
+make[5]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/common'
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+make[5]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/common'
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/common'
+Making install in simple
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/simple'
+make[5]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/simple'
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+make[5]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/simple'
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/simple'
+Making install in linux
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/linux'
+make[5]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/linux'
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+make[5]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/linux'
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo/linux'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo'
+make[5]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo'
+make[5]: Nothing to be done for `install-exec-am'.
+make[5]: Nothing to be done for `install-data-am'.
+make[5]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo'
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsysinfo'
+Making install in zbxsys
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsys'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsys'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsys'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxsys'
+Making install in zbxcomms
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcomms'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcomms'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcomms'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxcomms'
+Making install in zbxjson
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxjson'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxjson'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxjson'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxjson'
+Making install in zbxexec
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxexec'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxexec'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxexec'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxexec'
+Making install in zbxmodules
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxmodules'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxmodules'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxmodules'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxmodules'
+Making install in zbxregexp
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxregexp'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxregexp'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxregexp'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxregexp'
+Making install in zbxself
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxself'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxself'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxself'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs/zbxself'
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs'
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs'
+make[4]: Nothing to be done for `install-exec-am'.
+make[4]: Nothing to be done for `install-data-am'.
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs'
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/libs'
+Making install in zabbix_agent
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_agent'
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_agent'
+ /usr/bin/mkdir -p '/usr/local/zabbix/sbin'
+  /usr/bin/install -c zabbix_agentd '/usr/local/zabbix/sbin'
+make  install-data-hook
+make[4]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_agent'
+/usr/bin/mkdir -p "/usr/local/zabbix/etc/zabbix_agentd.conf.d"
+/usr/bin/mkdir -p "/usr/local/zabbix/lib"
+test -f "/usr/local/zabbix/etc/zabbix_agentd.conf" || cp "../../conf/zabbix_agentd.conf" "/usr/local/zabbix/etc"
+make[4]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_agent'
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_agent'
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_agent'
+Making install in zabbix_get
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_get'
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_get'
+ /usr/bin/mkdir -p '/usr/local/zabbix/bin'
+  /usr/bin/install -c zabbix_get '/usr/local/zabbix/bin'
+make[3]: Nothing to be done for `install-data-am'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_get'
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_get'
+Making install in zabbix_sender
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_sender'
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_sender'
+ /usr/bin/mkdir -p '/usr/local/zabbix/bin'
+  /usr/bin/install -c zabbix_sender '/usr/local/zabbix/bin'
+make[3]: Nothing to be done for `install-data-am'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_sender'
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src/zabbix_sender'
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src'
+make[3]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src'
+make[3]: Nothing to be done for `install-exec-am'.
+make[3]: Nothing to be done for `install-data-am'.
+make[3]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src'
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src'
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/src'
+Making install in database
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/database'
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/database'
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/database'
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/database'
+Making install in man
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/man'
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/man'
+make[2]: Nothing to be done for `install-exec-am'.
+ /usr/bin/mkdir -p '/usr/local/zabbix/share/man/man1'
+ /usr/bin/install -c -m 644 'zabbix_get.man' '/usr/local/zabbix/share/man/man1/zabbix_get.1'
+ /usr/bin/install -c -m 644 'zabbix_sender.man' '/usr/local/zabbix/share/man/man1/zabbix_sender.1'
+ /usr/bin/mkdir -p '/usr/local/zabbix/share/man/man8'
+ /usr/bin/install -c -m 644 'zabbix_agentd.man' '/usr/local/zabbix/share/man/man8/zabbix_agentd.8'
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/man'
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/man'
+Making install in misc
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/misc'
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/misc'
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/misc'
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/misc'
+Making install in upgrades
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/upgrades'
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/upgrades'
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/upgrades'
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7/upgrades'
+make[1]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7'
+make[2]: Entering directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7'
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.
+make[2]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7'
+make[1]: Leaving directory `/root/Zabbix_Agentd-install/packages/zabbix-3.2.7'
+succeed
+[0;31mroot $ [0;32mmkdir -p /usr/local/zabbix/{logs,run}[0m
+[0;31mroot $ [0;32msed -i "s/Server=127.0.0.1/Server=192.168.137.100/g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@Hostname=Zabbix server@Hostname=localhost.localdomain@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@LogFile=/tmp/zabbix_agentd.log@LogFile=/usr/local/zabbix/run/zabbix_agentd.log@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@\# PidFile=/tmp/zabbix_agentd.pid@PidFile=/usr/local/zabbix/logs/zabbix_agentd.pid@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@\# ListenPort=10050@ListenPort=10050@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@\# Timeout=3@Timeout=30@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@ServerActive=127.0.0.1@ServerActive=192.168.137.100@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@\# EnableRemoteCommands=0@EnableRemoteCommands=1@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@\# LogRemoteCommands=0@LogRemoteCommands=0@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@\# UnsafeUserParameters=0@UnsafeUserParameters=1@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@\# StartAgents=3@StartAgents=10@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@\# LogFileSize=1@LogFileSize=100@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i "s@\# HostMetadataItem=@HostMetadataItem=system.uname@g" /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32mcp /root/Zabbix_Agentd-install/scripts/discover_disk.pl /usr/local/zabbix/lib/[0m
+[0;31mroot $ [0;32mchmod u+x /usr/local/zabbix/lib/discover_disk.pl[0m
+[0;31mroot $ [0;32msed -i '$a
+UserParameter=ping[*],ping $1 -c $2 > /dev/null && echo 1 || echo 0' /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[0;31mroot $ [0;32msed -i '$aUserParameter=discovery.disks.iostats,/usr/local/zabbix/lib/discover_disk.pl
+UserParameter=vfs.dev.read.sectors[*],cat /proc/diskstats | grep $1 | head -1 | awk '''{print $$6}'''
+UserParameter=vfs.dev.write.sectors[*],cat /proc/diskstats | grep $1 | head -1 | awk '''{print $$10}'''
+UserParameter=vfs.dev.read.ops[*],cat /proc/diskstats | grep $1 | head -1 |awk '''{print $$4}'''
+UserParameter=vfs.dev.write.ops[*],cat /proc/diskstats | grep $1 | head -1 | awk '''{print $$8}'''
+UserParameter=vfs.dev.read.ms[*],cat /proc/diskstats | grep $1 | head -1 | awk '''{print $$7}'''
+UserParameter=vfs.dev.write.ms[*],cat /proc/diskstats | grep $1 | head -1 | awk '''{print $$11}'''
+UserParameter=user_disk,/usr/local/zabbix/lib/user_disk.sh' /usr/local/zabbix/etc/zabbix_agentd.conf[0m
+[34;1m
+========================================[31m[初始化zabbix_agentd][34m========================================
+[0m
+[0;31mroot $ [0;32mcp /root/Zabbix_Agentd-install/packages/zabbix-3.2.7/misc/init.d/fedora/core/zabbix_agentd /etc/init.d/[0m
+[0;31mroot $ [0;32mchmod 755  /etc/init.d/zabbix_agentd[0m
+[0;31mroot $ [0;32msed -i "s@BASEDIR=/usr/local@BASEDIR=/usr/local/zabbix@g" /etc/init.d/zabbix_agentd[0m
+[0;31mroot $ [0;32msed -i "s@PIDFILE=/tmp/\$BINARY_NAME.pid@PIDFILE=/usr/local/zabbix/logs/\$BINARY_NAME.pid@g" /etc/init.d/zabbix_agentd[0m
+[0;31mroot $ [0;32mchown -R zabbix:zabbix /usr/local/zabbix/[0m
+[0;31mroot $ [0;32mservice zabbix_agentd start && ss -tnlp[0m
+Starting zabbix_agentd (via systemctl):  Warning: zabbix_agentd.service changed on disk. Run 'systemctl daemon-reload' to reload units.
+[  OK  ]
+State      Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+LISTEN     0      128    127.0.0.1:40783                    *:*                   users:(("node",pid=12033,fd=18))
+LISTEN     0      128          *:22                       *:*                   users:(("sshd",pid=4245,fd=3))
+LISTEN     0      100    127.0.0.1:25                       *:*                   users:(("master",pid=4473,fd=13))
+LISTEN     0      128          *:10050                    *:*                   users:(("zabbix_agentd",pid=11972,fd=4),("zabbix_agentd",pid=11971,fd=4),("zabbix_agentd",pid=11970,fd=4),("zabbix_agentd",pid=11969,fd=4),("zabbix_agentd",pid=11968,fd=4),("zabbix_agentd",pid=11967,fd=4),("zabbix_agentd",pid=11966,fd=4),("zabbix_agentd",pid=11965,fd=4),("zabbix_agentd",pid=11964,fd=4),("zabbix_agentd",pid=11963,fd=4),("zabbix_agentd",pid=11962,fd=4),("zabbix_agentd",pid=11961,fd=4),("zabbix_agentd",pid=11960,fd=4))
+LISTEN     0      128         :::22                      :::*                   users:(("sshd",pid=4245,fd=4))
+LISTEN     0      100        ::1:25                      :::*                   users:(("master",pid=4473,fd=14))
+[34;1m
+========================================[31m[agentd_status_check][34m========================================
+[0m
+Zabbix agentd Starting Success!
+[34;1m
+========================================[31m[Check Iptables Status][34m========================================
+[0m
+10050/tcp
+firewall rules already exist!
