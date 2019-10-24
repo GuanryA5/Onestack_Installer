@@ -1,6 +1,6 @@
 # Usage:
 
-1. 配置参数区
+1. 修改配置参数区
 ```text
 Agent_Server=
 Agent_ServerActive=
