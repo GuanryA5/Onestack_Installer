@@ -5,6 +5,7 @@
 Agent_Server=
 Agent_ServerActive=
 ```
+> 填写Zabbix服务端IP
 
 2. 执行安装
 ```bash
