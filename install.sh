@@ -4,6 +4,8 @@ set -e
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 clear
 
+cur_dir=$(pwd)
+
 printf "
 #######################################
 #     ZABBIX Installer ALL IN ONE     #
@@ -11,10 +13,10 @@ printf "
 #######################################
 "
 # Check if user is root
-[ $(id -u) != "0"] && echo "You must be root to run this scripts"; exit 1
+[ $(id -u) != "0" ] && { echo "${CFAILURE}You must be root to run this scripts"${CEND}; exit 1 }
 
-zbxinstaller_dir=$(dirname "`readlink -f 0`")
-pushd ${zbxinstaller_dir} > /dev/null
+oneinstack_dir=$(dirname "`readlink -f 0`")
+pushd ${oneinstack_dir} > /dev/null
 . ./version.txt
 . ./options.conf
 . ./include/color.sh
@@ -29,7 +31,7 @@ while :; do echo
   else
     if [ "${flag}" == 'y' ]; then
       while :; do echo
-        echo 'Please select what you want install（选择部署 ZABBIX [Server/Agent]):'
+        echo 'Please select what you want install(选择部署 ZABBIX [Server/Agent]):'
         echo -e "\t${CMSG}0${CEND}. Do not install"
         echo -e "\t${CMSG}1${CEND}. Install Zabbix Server"
         echo -e "\t${CMSG}2${CEND}. Install Zabbix Agent"
@@ -129,26 +131,44 @@ IPADDR=$(./include/get_ipaddr)
 
 startTime=`date +%s`
 
-# 部署监控 SERVER/AGENT
-if [ "${setup_option}" = '1' ]; then
-  . include/zabbix_server.sh
-  Install_Zabbix_server 2>&1 | tee -a ${zabbix_install_dir}/install.log
-elif [ "${setup_option}" = '2' ]; then
-  . include/zabbix_agent.sh
-  Install_Zabbix_agent 2&>1 | tee -a ${zabbix_install_dir}/install.log
-fi
+# 部署监控 SERVER
+case "${server_option}" in
+  1)
+    . include/zabbix_server.sh
+    Install_Zabbix_server32 2>&1 | tee -a ${oneinstack_dir}/install.log
+    ;;
+  2)
+    . include/zabbix_server.sh
+    Install_Zabbix_server34 2>&1 | tee -a ${oneinstack_dir}/install.log
+    ;;
+  3)
+    . include/zabbix_server.sh
+    Install_Zabbix_server40 2>&1 | tee -a ${oneinstack_dir}/install.log
+  ;;
+esac
+# 监控部署 AGENT
+case "${server_option}" in
+  1)
+    . include/zabbix_agent.sh
+    Install_Zabbix_agent32 2>&1 | tee -a ${oneinstack_dir}/install.log
+    ;;
+  2)
+    . include/zabbix_agent.sh
+    Install_Zabbix_agent 2>&1 | tee -a ${oneinstack_dir}/install.log
+    ;;
+  3)
+    . include/zabbix_agent.sh
+    Install_Zabbix_agent40 2>&1 | tee -a ${oneinstack_dir}/install.log
+  ;;
+esac
 
 # Apache
 clear; echo "${CWARNING}[Monitor:-Apache] Start Installing ..."; echo
 CHECK=$(curl -s http://localhost/server-status | sed -n '/Server uptime/p' | awk '{print $3 $5}')
 if [ "$monitor_apache" == '1' -a "$CHECK" != "0" ] ; then
   . include/apache.sh
-  Install_Zabbix_agent32 2&>1 | tee -a ${zabbix_install}
+  Install_Zabbix_agent32 2&>1 | tee -a ${oneinstack_dir}/install.log
 else
   echo; echo "${CWARNING}[Monitor:-Apache] Please check configuare, turn on the server status option! ${CEND}"; echo
   kill -9 $$
 fi
-
-#Nginx
-
-    

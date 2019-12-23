@@ -77,7 +77,7 @@ Install_Zabbix_agent32(){
   cp ./misc/init.d/fedora/core/zabbix_agentd /etc/init.d/
   chmod 755 /etc/init.d/zabbix_agentd
   sed -i 's@BASEDIR=/usr/local@BASEDIR=${zabbix_install_dir}@g' /etc/init.d/zabbix_agentd
-  sed -i 's@PIDFILE=/tmp/$BINARY_NAME.pid@PIDFILE=${Agent_PidFile}/$BINARY_NAME.pid@g' /etc/init.d/zabbix_agentd
+  sed -i 's@PIDFILE=/tmp/$BINARY_NAME.pid@PIDFILE=${zabbix_install_dir}/run/$BINARY_NAME.pid@g' /etc/init.d/zabbix_agentd
   
   # 添加开机启动
   cat /etc/rc.local | grep "service zabbix_agentd start" > /dev/null 2>&1
