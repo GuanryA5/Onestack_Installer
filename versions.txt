@@ -1,0 +1,14 @@
+# 各软件版本使用版本
+
+# ZABBIX SERVER
+server_ver=3.27
+
+# ZABBIX AGENT
+agent32_ver=3.2.7
+
+# JAVA 类监控软件
+jmx_ver=
+
+# ODBC
+
+

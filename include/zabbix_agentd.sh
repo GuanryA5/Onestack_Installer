@@ -1,57 +1,5 @@
 #!/bin/bash 
-set -e
 
-################################参数区#############################
-LinuxVersion=$(for temp in `cat /etc/system-release`;do echo $temp|sed -n '/^[0-9]/p';done)
-baseshell=$(cd `dirname $0`; pwd)
-basepath=$(cd $baseshell;cd packages; pwd)
-scripts="$(cd $baseshell; pwd)/scripts"
-
-ZBBackage="zabbix-3.2.7.tar.gz"
-ZBBackageName=$(echo $ZBBackage|awk -F ".tar" '{print $1}')
-BASEDIR="/usr/local/zabbix"
-
-Agent_Server="192.168.137.100"
-Agent_ServerActive="192.168.137.100"
-
-Agent_Hostname="$(hostname)"
-Agent_Timeout="30"
-CONF_FILE="${BASEDIR}/etc/zabbix_agentd.conf"
-PidFile="${BASEDIR}/logs/zabbix_agentd.pid"
-LogFile="${BASEDIR}/run/zabbix_agentd.log"
-Agent_ListenPort="10050"
-#Include="/usr/local/zabbix/etc/zabbix_agentd.conf.d/*.conf"
-Agent_UnsafeUserParameters="1"
-Agent_EnableRemoteCommands="1"
-Agent_LogRemoteCommands="0"
-Agent_StartAgents="10"
-Agent_LogFileSize="100"
-Agent_HostMetadataItem="system.uname"
-
-DEBUG_COMMANDS="1" #开启调试
-
-#############################命令执行#############################
-run() {
-    _cmd="${1}"
-    _debug="0"
-
-    _red="\033[0;31m"
-    _green="\033[0;32m"
-    _reset="\033[0m"
-    _user="$(whoami)"
-
-    # 如果设置了第二个参数，可以开启调试模式
-    if [ "${#}" = "2" ];then
-        if [ "${2}" = "1" ];then
-            _debug="1"
-        fi
-    fi
-
-    if [ "${DEBUG_COMMANDS}" = "1" ] || [ "${_debug}" = "1" ];then
-        printf "${_red}%s \$ ${_green}${_cmd}${_reset}\n" "${_user}"
-    fi
-    sh -c "LANG=C LC_ALL=C ${_cmd}"
-}
 
 ##############################环境包########################################
 Env(){
@@ -146,20 +94,6 @@ agentd_install(){
         run "sed -i \"s@\# StartAgents=3@StartAgents=${Agent_StartAgents}@g\" `grep StartAgents= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# LogFileSize=1@LogFileSize=${Agent_LogFileSize}@g\" `grep LogFileSize= -rl ${CONF_FILE}`"
         run "sed -i \"s@\# HostMetadataItem=@HostMetadataItem=${Agent_HostMetadataItem}@g\" `grep HostMetadataItem= -rl ${CONF_FILE}`"
-
-        # 自定义Item文件目录
-        #run "sed -i \"s@\# Include=/usr/local/etc/zabbix_agentd.conf.d/@Include=${Include}@g\" `grep Include= -rl ${CONF_FILE}`"
-        ################################ UserParameter自定义监控项 ###########################################
-
-        run "cp ${scripts}/discover_disk.pl ${BASEDIR}/lib/"
-        run "chmod u+x ${BASEDIR}/lib/discover_disk.pl"
-
-        echo  -e "\n################################基础监测################################" >> ${CONF_FILE} && \
-        run "sed -i '\$aUserParameter=ping[*],ping \$1 -c \$2 > /dev/null && echo 1 || echo 0' ${CONF_FILE}"
-    
-        #监控磁盘IO的配置
-        echo -e "\n################################磁盘监测################################" >> ${CONF_FILE} && \
-        run "sed -i '\$aUserParameter=discovery.disks.iostats,/usr/local/zabbix/lib/discover_disk.pl\nUserParameter=vfs.dev.read.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$6}'\''\nUserParameter=vfs.dev.write.sectors[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$10}'\''\nUserParameter=vfs.dev.read.ops[*],cat /proc/diskstats | grep \$1 | head -1 |awk '\''{print \$\$4}'\''\nUserParameter=vfs.dev.write.ops[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$8}'\''\nUserParameter=vfs.dev.read.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$7}'\''\nUserParameter=vfs.dev.write.ms[*],cat /proc/diskstats | grep \$1 | head -1 | awk '\''{print \$\$11}'\''\nUserParameter=user_disk,/usr/local/zabbix/lib/user_disk.sh' ${CONF_FILE}"
     fi
 }
 
