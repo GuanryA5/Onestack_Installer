@@ -1,10 +1,6 @@
 #!/bin/bash
-set -e
-
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 clear
-
-cur_dir=$(pwd)
 
 printf "
 #######################################
@@ -12,40 +8,41 @@ printf "
 #                                     #
 #######################################
 "
+                             
 # Check if user is root
-[ $(id -u) != "0" ] && { echo "${CFAILURE}You must be root to run this scripts"${CEND}; exit 1 }
+[ $(id -u) != '0' ] && { echo "${CFAILURE}Error: You must be root to run this script${CEND}"; exit 1; }
 
 oneinstack_dir=$(dirname "`readlink -f 0`")
 pushd ${oneinstack_dir} > /dev/null
-. ./version.txt
+. ./versions.txt
 . ./options.conf
 . ./include/color.sh
 . ./include/check_os.sh
-. ./include/initCentOS.sh
+# . ./include/initCentOS.sh
 
 # check Monitor agent
 while :; do echo
   read -e -p "Do you want to install Monitor? [y/n]" flag
-  if [[ ! {$flag} =~ ^[y,n]$ ]];then
+  if [[ ! ${flag} =~ ^[y,n]$ ]]; then
     echo "${CWARNING} input error! Please only input 'y' or 'n' ${CEND}"
   else
     if [ "${flag}" == 'y' ]; then
       while :; do echo
         echo 'Please select what you want install(选择部署 ZABBIX [Server/Agent]):'
-        echo -e "\t${CMSG}0${CEND}. Do not install"
         echo -e "\t${CMSG}1${CEND}. Install Zabbix Server"
         echo -e "\t${CMSG}2${CEND}. Install Zabbix Agent"
+        echo -e "\t${CMSG}3${CEND}. Do not install"
         read -e -p "Please input a number:(Default 2 press Enter)" setup_option
         setup_option=${setup_option:-2}
-        if [[ ! ${setup_option} =~ ^[0-2]$ ]]; then
-          echo "${CWARNING}input error! Please only input number 0~2${CEND}"
+        if [[ ! ${setup_option} =~ ^[1-3]$ ]]; then
+          echo "${CWARNING}input error! Please only input number 1~3${CEND}"
         else
-          [ "${setup_option}" != '0' -a -e "${zabbix_install_dir}/sbin/zabbix_server" ] && { echo "${CWARNING}Zabbix Server already installed!${CEND}"; unset setup_option }
-          [ "${setup_option}" != '0' -a -e "${zabbix_install_dir}/sbin/zabbix_agent" ] && { echo "${CWARNING}Zabbix Agent already installed!${CEND}"; unset setup_option }
+          [ "${setup_option}" != '3' -a -e "${zabbix_install_dir}/sbin/zabbix_server" ] && { echo "${CWARNING}Zabbix Server already installed! ${CEND}"; unset setup_option; }
+          [ "${setup_option}" != '3' -a -e "${zabbix_install_dir}/sbin/zabbix_agentd" ] && { echo "${CWARNING}Zabbix Agent already already installed! ${CEND}"; unset setup_option; }
           break
         fi
       done
-      if [ "${setup_option}" = 1 ]; then
+      if [ "${setup_option}" = '1' ]; then
         while :;do echo
           echo "[ZABBIX_SERVER], Please select a version(选择Server版本):"
           echo -e "\t${CMSG}1${CEND}. Install ZABBIX_SERVER-3.2"
@@ -101,19 +98,19 @@ while :; do echo
     do
       [ -z "`echo ${array_all[@]} | grep -w ${v}`" ] && monitor_flag=1
     done
-    if [ "${monitor_flag}" = '1']; then
+    if [ "${monitor_flag}" = '1' ]; then
       unset monitor_flag
-      echo; echo "${CWARNING}input error! Please only input number 3 5 and so on${CEND}"; echo
+      echo; echo "${CWARNING}Input error! Please only input number 3 5 and so on${CEND}"; echo
       continue
     else
-        [ -n "`echo ${array_monitor[@]} | grep -w 1`" ] && monitor_apache = 1
-        [ -n "`echo ${array_monitor[@]} | grep -w 2`" ] && monitor_nginx = 1
-        [ -n "`echo ${array_monitor[@]} | grep -w 3`" ] && monitor_tomcat = 1
-        [ -n "`echo ${array_monitor[@]} | grep -w 4`" ] && monitor_java = 1
-        [ -n "`echo ${array_monitor[@]} | grep -w 5`" ] && monitor_mysql = 1
-        [ -n "`echo ${array_monitor[@]} | grep -w 6`" ] && monitor_oracle = 1
-        [ -n "`echo ${array_monitor[@]} | grep -w 7`" ] && monitor_redis = 1
-        [ -n "`echo ${array_monitor[@]} | grep -w 8`" ] && monitor_memcache = 1
+        [ -n "`echo ${array_monitor[@]} | grep -w 1`" ] && monitor_apache=1
+        [ -n "`echo ${array_monitor[@]} | grep -w 2`" ] && monitor_nginx=1
+        [ -n "`echo ${array_monitor[@]} | grep -w 3`" ] && monitor_tomcat=1
+        [ -n "`echo ${array_monitor[@]} | grep -w 4`" ] && monitor_java=1
+        [ -n "`echo ${array_monitor[@]} | grep -w 5`" ] && monitor_mysql=1
+        [ -n "`echo ${array_monitor[@]} | grep -w 6`" ] && monitor_oracle=1
+        [ -n "`echo ${array_monitor[@]} | grep -w 7`" ] && monitor_redis=1
+        [ -n "`echo ${array_monitor[@]} | grep -w 8`" ] && monitor_memcache=1
       break
     fi
 done
@@ -123,11 +120,13 @@ done
 
 # install wget gcc curl python
 # [ "${PM}" == 'apt-get'] && apt-get -y update
-[ "${PM}" == 'yum'] && yum clean all
+[ "${PM}" == 'yum' ] && yum clean all
 ${PM} -y install gcc gcc-c++ net-tools python
+# [ "$?" != '0' ] && echo; echo "${CFAILURE}Failed to Install dependency software, Please check ${PM} configuration!"
 
 # get IP
-IPADDR=$(./include/get_ipaddr)
+IPADDR=$(./include/get_ipaddr.py)
+# IPADDR=$(./include/get_public_ipaddr.py)
 
 startTime=`date +%s`
 
@@ -147,7 +146,7 @@ case "${server_option}" in
   ;;
 esac
 # 监控部署 AGENT
-case "${server_option}" in
+case "${agent_option}" in
   1)
     . include/zabbix_agent.sh
     Install_Zabbix_agent32 2>&1 | tee -a ${oneinstack_dir}/install.log
@@ -163,12 +162,16 @@ case "${server_option}" in
 esac
 
 # Apache
-clear; echo "${CWARNING}[Monitor:-Apache] Start Installing ..."; echo
 CHECK=$(curl -s http://localhost/server-status | sed -n '/Server uptime/p' | awk '{print $3 $5}')
-if [ "$monitor_apache" == '1' -a "$CHECK" != "0" ] ; then
-  . include/apache.sh
-  Install_Zabbix_agent32 2&>1 | tee -a ${oneinstack_dir}/install.log
-else
-  echo; echo "${CWARNING}[Monitor:-Apache] Please check configuare, turn on the server status option! ${CEND}"; echo
-  kill -9 $$
+if [ "$monitor_apache" == '1' ]; then
+  echo "${CMSG}[Monitor:-Apache] Start Installing ...${CEND}"; echo
+  if [ -n "${CHECK}" -a "${CHECK}" != '0' ]; then
+    . include/apache.sh
+    Install_Zabbix_agent32 2&>1 | tee -a ${oneinstack_dir}/install.log
+  else
+    echo; echo "${CFAILURE}[Monitor:-Apache] Please check configuare, turn on the server status option! ${CEND}"; echo
+    kill -9 $$
+  fi
 fi
+
+
