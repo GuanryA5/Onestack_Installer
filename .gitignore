@@ -1,2 +1,2 @@
-/log
-!/packages/zabbix-3.2.7.tar.gz
+/install.log
+!/src/zabbix-3.2.7.tar.gz
