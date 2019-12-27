@@ -121,8 +121,10 @@ done
 # install wget gcc curl python
 # [ "${PM}" == 'apt-get'] && apt-get -y update
 [ "${PM}" == 'yum' ] && yum clean all
-${PM} -y install gcc gcc-c++ net-tools python
-# [ "$?" != '0' ] && echo; echo "${CFAILURE}Failed to Install dependency software, Please check ${PM} configuration!"
+! ${PM} -y install gcc gcc-c++ net-tools python && echo; echo "${CFAILURE}Failed to Install dependency software, Please check ${PM} configuration!"
+
+
+
 
 # get IP
 IPADDR=$(./include/get_ipaddr.py)
